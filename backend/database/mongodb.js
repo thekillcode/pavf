@@ -2,9 +2,15 @@ import mongoose from 'mongoose';
 import logger from '../utils/logger.js';
 
 const mongodbConnect = () => {
-  mongoose.connect(
-    `${process.env.MONGO_ADDRESS}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`
-  );
+  if (process.env.NODE_ENV !== 'production') {
+    mongoose.connect(
+      `${process.env.MONGO_ADDRESS}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`
+    );
+  } else {
+    mongoose.connect(
+      `mongodb+srv://aliamaan126:f5UkKvxM5rNAWm3N@pavf.xdyjfey.mongodb.net/PAVF_Mobile?retryWrites=true&w=majority`
+    );
+  }
 
   // mongoose.connect(
   //   `mongodb+srv://mern:Faroogh@mernauth.0fcldjo.mongodb.net/mern-auth?retryWrites=true&w=majority`

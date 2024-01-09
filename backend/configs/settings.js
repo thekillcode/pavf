@@ -19,6 +19,7 @@ const settings = {
       },
     },
   },
+  env: {},
 };
 
 export default settings;
