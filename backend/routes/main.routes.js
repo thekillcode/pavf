@@ -1,7 +1,11 @@
 import express from 'express';
 import auth from '../middlewares/auth.js';
 import { StatusCodes } from '../errors/ApiError.js';
-import { roleSeeder, userSeeder } from '../database/seeders/seeder.js';
+import { roleSeeder } from '../database/seeders/seeder.js';
+import {
+  createSeederRole,
+  createSeederUser,
+} from '../services/seeder.service.js';
 
 const mainRouter = new express.Router();
 
@@ -15,22 +19,29 @@ mainRouter.get('/', async (req, res) => {
 mainRouter.get('/seeder', async (req, res) => {
   const { password } = req.body;
   if (password === 'lord123!@#') {
-    const roleData = await roleSeeder(['Admin', 'User']);
-    // const UserData = await userSeeder([
-    //   {
-    //     username: 'admin',
-    //     email: 'admin@example.com',
-    //     password: 'Admin123!@#',
-    //     role: 'admin',
-    //   },
-    //   {
-    //     username: 'user',
-    //     email: 'user@example.com',
-    //     password: 'user123!@#',
-    //     role: 'user',
-    //   },
-    // ]);
-    return res.status(StatusCodes.CREATED).json({ roleData });
+    const roleData = [];
+    roleData.push(await createSeederRole('Admin'));
+    roleData.push(await createSeederRole('User'));
+
+    const userData = [];
+    userData.push(
+      await createSeederUser({
+        username: 'admin',
+        email: 'admn@example.com',
+        password: 'admin123!@#',
+        role: 'admin',
+      })
+    );
+    userData.push(
+      await createSeederUser({
+        username: 'user',
+        email: 'user@example.com',
+        password: 'user123!@#',
+        role: 'user',
+      })
+    );
+
+    return res.status(StatusCodes.CREATED).json({ roleData, userData });
   } else {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       message: 'Authenticated',

@@ -1,4 +1,5 @@
 import https from 'https';
+import http from 'http';
 import fs from 'fs';
 import express from 'express';
 import cors from 'cors';
@@ -27,13 +28,17 @@ class App {
   }
   serverInit() {
     this.app = express();
-    this.server = https.createServer(
-      {
-        key: fs.readFileSync('configs/localhost+2-key.pem'),
-        cert: fs.readFileSync('configs/localhost+2.pem'),
-      },
-      this.app
-    );
+    if (process.env.NODE_ENV !== 'production') {
+      this.server = https.createServer(
+        {
+          key: fs.readFileSync('configs/localhost+2-key.pem'),
+          cert: fs.readFileSync('configs/localhost+2.pem'),
+        },
+        this.app
+      );
+    } else {
+      this.server = http.createServer(this.app);
+    }
   }
   loadDevPlugins() {}
   loadPlugins() {

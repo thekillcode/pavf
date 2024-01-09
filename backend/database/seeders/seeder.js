@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Role from '../../models/Role.js';
 import User from '../../models/User.js';
+import { createSeederUser } from '../../services/seeder.service.js';
 
 export const roleSeeder = async (roles) => {
   try {
@@ -33,6 +34,6 @@ export const userSeeder = async (users) => {
       }
     });
   }
-  const usersCreated = await new User.insertMany(usersArray);
+  const usersCreated = await User.insertMany(usersArray);
   return usersCreated;
 };
