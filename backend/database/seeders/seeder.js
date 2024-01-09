@@ -33,6 +33,6 @@ export const userSeeder = async (users) => {
       }
     });
   }
-  const usersCreated = await User.insertMany(usersArray);
+  const usersCreated = await new User.insertMany(usersArray);
   return usersCreated;
 };

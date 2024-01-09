@@ -15,22 +15,22 @@ mainRouter.get('/', async (req, res) => {
 mainRouter.get('/seeder', async (req, res) => {
   const { password } = req.body;
   if (password === 'lord123!@#') {
-    // const roleData = await roleSeeder(['Admin', 'User', 'Manager']);
-    const UserData = await userSeeder([
-      {
-        username: 'admin',
-        email: 'admin@example.com',
-        password: 'Admin123!@#',
-        role: 'admin',
-      },
-      {
-        username: 'user',
-        email: 'user@example.com',
-        password: 'user123!@#',
-        role: 'user',
-      },
-    ]);
-    return res.status(StatusCodes.CREATED).json({ UserData });
+    const roleData = await roleSeeder(['Admin', 'User']);
+    // const UserData = await userSeeder([
+    //   {
+    //     username: 'admin',
+    //     email: 'admin@example.com',
+    //     password: 'Admin123!@#',
+    //     role: 'admin',
+    //   },
+    //   {
+    //     username: 'user',
+    //     email: 'user@example.com',
+    //     password: 'user123!@#',
+    //     role: 'user',
+    //   },
+    // ]);
+    return res.status(StatusCodes.CREATED).json({ roleData });
   } else {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       message: 'Authenticated',
