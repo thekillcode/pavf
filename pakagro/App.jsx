@@ -1,12 +1,9 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  StatusBar as sb,
-  Text,
-  View,
-  SafeAreaView,
-} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar as sb, SafeAreaView } from "react-native";
+import { LoginScreen, RegisterScreen, SplashScreen } from "./screens";
 
+const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <SafeAreaView
@@ -16,18 +13,16 @@ export default function App() {
         paddingTop: sb.currentHeight,
       }}
     >
-      <View style={styles.container}>
-        <Text>Pak Ago Vertical Form Plant {sb.currentHeight}</Text>
-        <StatusBar hidden={false} style="auto" backgroundColor="#0F9F4A" />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Default"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Default" component={SplashScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-  },
-});
